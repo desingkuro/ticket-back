@@ -1,9 +1,12 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { SequelizeModuleOptions } from "@nestjs/sequelize";
+import { Logger } from "@nestjs/common";
 
 @Injectable()
-export class CreateDatabaseFActory {
+export class CreateDatabaseFactory {
+    private readonly logger = new Logger(CreateDatabaseFactory.name);
+
     constructor(private configService: ConfigService) { }
 
     private createCloudConfig(uri: string): SequelizeModuleOptions {
@@ -18,42 +21,40 @@ export class CreateDatabaseFActory {
             },
             autoLoadModels: true,
             synchronize: false,
-            logging: this.getLoggingOption(),
+            logging: (sql: string) => this.logger.debug(sql),
         };
     }
 
     private createLocalConfig(): SequelizeModuleOptions {
         return {
             dialect: 'postgres',
-            host: this.configService.get('DB_HOST', 'localhost'),
-            port: this.configService.get<number>('DB_PORT', 5432),
-            username: this.configService.get('DB_USER', 'postgres'),
-            password: this.configService.get('DB_PASSWORD', 'admin123'),
-            database: this.configService.get('DB_NAME', 'postgres'),
+            host: process.env.DB_HOST || 'localhost',
+            port: Number(process.env.DB_PORT || 5432),
+            username: process.env.DB_USER || 'postgres',
+            password: process.env.DB_PASSWORD || 'admin123',
+            database: process.env.DB_NAME || 'postgres',
             autoLoadModels: true,
-            synchronize: false,
+            synchronize: true,
             logging: this.getLoggingOption(),
         };
+    }
+
+    createDatabase() {
+        if (process.env.NODE_ENV === 'development') {
+            return this.createLocalConfig();
+        }
+        return this.createCloudConfig(this.configService.get('DATABASE_URL') as string);
     }
 
     private getLoggingOption() {
         const env = this.configService.get('NODE_ENV', 'development');
 
-        // En producción
         if (env === 'production') {
             return false;
         }
 
-        // En desarrollo
         return (sql: string) => {
             console.log('🔍 [Sequelize Query]:', sql);
         };
-    }
-
-    createDatabase() {
-        if (this.configService.get('NODE_ENV') === 'development') {
-            return this.createLocalConfig();
-        }
-        return this.createCloudConfig(this.configService.get('DATABASE_URL') as string);
     }
 }

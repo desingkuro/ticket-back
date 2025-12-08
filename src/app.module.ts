@@ -1,9 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { CreateDatabaseFActory } from './core/database/create-database-f-actory.class';
+import { CreateDatabaseFactory } from './core/database/create-database-f-actory.class';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { DomainModule } from './domain/domain.module';
 
@@ -17,19 +15,19 @@ import { DomainModule } from './domain/domain.module';
     SequelizeModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => {
-        const config = new CreateDatabaseFActory(configService)
+        const config = new CreateDatabaseFactory(configService)
         return config.createDatabase()
       },
       inject: [ConfigService]
     }),
     DomainModule
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [
     {
       provide: AuthInterceptor,
       useClass: AuthInterceptor
     },
-    AppService],
+  ],
 })
 export class AppModule { }
