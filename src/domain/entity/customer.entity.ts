@@ -1,6 +1,7 @@
 import { DataTypes } from "sequelize";
-import { AllowNull, BelongsTo, Column, Model, Table } from "sequelize-typescript"
+import { BelongsTo, Column, ForeignKey, HasMany, Model, Table } from "sequelize-typescript"
 import { User } from "./user.entity";
+import { Project } from "./project.entity";
 
 
 @Table({
@@ -16,6 +17,7 @@ export class Customer extends Model{
     })
     declare id: number;
 
+    @ForeignKey(() => User)
     @Column({
         allowNull: false,
         type: DataTypes.INTEGER,
@@ -46,4 +48,7 @@ export class Customer extends Model{
 
     @BelongsTo(() => User)
     user: User;
+
+    @HasMany(() => Project)
+    projects: Project[];
 }

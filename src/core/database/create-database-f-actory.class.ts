@@ -18,7 +18,7 @@ export class CreateDatabaseFActory {
             },
             autoLoadModels: true,
             synchronize: false,
-            logging: this.configService.get('NODE_ENV') !== 'production',
+            logging: this.getLoggingOption(),
         };
     }
 
@@ -32,7 +32,21 @@ export class CreateDatabaseFActory {
             database: this.configService.get('DB_NAME', 'postgres'),
             autoLoadModels: true,
             synchronize: false,
-            logging: this.configService.get('NODE_ENV') !== 'production',
+            logging: this.getLoggingOption(),
+        };
+    }
+
+    private getLoggingOption() {
+        const env = this.configService.get('NODE_ENV', 'development');
+
+        // En producción
+        if (env === 'production') {
+            return false;
+        }
+
+        // En desarrollo
+        return (sql: string) => {
+            console.log('🔍 [Sequelize Query]:', sql);
         };
     }
 
