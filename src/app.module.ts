@@ -4,6 +4,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { CreateDatabaseFactory } from './core/database/create-database-f-actory.class';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { DomainModule } from './domain/domain.module';
+import { AuthModule } from './application/auth/auth.module';
 
 @Module({
   imports: [DomainModule,
@@ -20,14 +21,15 @@ import { DomainModule } from './domain/domain.module';
       },
       inject: [ConfigService]
     }),
-    DomainModule
+    DomainModule,
+    AuthModule
   ],
   controllers: [],
   providers: [
     {
       provide: AuthInterceptor,
       useClass: AuthInterceptor
-    },
+    }
   ],
 })
 export class AppModule { }

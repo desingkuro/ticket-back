@@ -1,15 +1,18 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { User } from 'src/domain/entity/user.entity';
 import { CreateUserDto } from 'src/presentation/dtos/auth/register/create-user.dto';
-import {AES} from 'crypto-js';
+import { AES } from 'crypto-js';
+import { Transaction } from 'sequelize';
+import { InjectModel } from '@nestjs/sequelize';
 
 @Injectable()
 export class CreateUserService {
   constructor(
+    @InjectModel(User) 
     private readonly userRepository: typeof User,
   ) { }
 
-  async create(createUserDto: CreateUserDto): Promise<any> {
+  async create(createUserDto: CreateUserDto, transaction?: Transaction): Promise<{ message: string, code: number }> {
 
     const { email, password, fullName, profile } = createUserDto;
 
@@ -19,17 +22,18 @@ export class CreateUserService {
 
     try {
       await this.existUser(email);
-      const user = await this.userRepository.create({
-        email:email,
-        password:hashPassword,
-        fullName:fullName,
-        profile:profile,
-      })
+      await this.userRepository.create({
+        email: email,
+        password: hashPassword,
+        fullName: fullName,
+        profile: profile,
+      }, { transaction })
       return {
         message: 'User created successfully',
         code: 201,
       };
     } catch (error) {
+      console.log('create user', error);
       throw new HttpException({
         message: 'Error create user',
         code: 400,
@@ -69,7 +73,7 @@ export class CreateUserService {
     return passwordBase64;
   }
 
-  private async existUser(email: string){
+  private async existUser(email: string) {
     const existUser = await this.userRepository.findOne({ where: { email } });
 
     if (existUser) {
@@ -85,3 +89,4 @@ export class CreateUserService {
     return hash;
   }
 }
+
