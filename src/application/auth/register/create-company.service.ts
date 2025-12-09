@@ -7,7 +7,7 @@ import { InjectModel } from "@nestjs/sequelize";
 @Injectable()
 export class CreateCompanyService {
     constructor(
-        @InjectModel(Company) 
+        @InjectModel(Company)
         private readonly companyRepository: typeof Company,
     ) { }
 
