@@ -37,20 +37,6 @@ export class Worker extends Model {
     companyId: number;
 
     @Column({
-        allowNull: false,
-        type: DataTypes.STRING(100),
-        field: 'first_name'
-    })
-    firstName: string;
-
-    @Column({
-        allowNull: false,
-        type: DataTypes.STRING(100),
-        field: 'last_name'
-    })
-    lastName: string;
-
-    @Column({
         type: DataTypes.STRING(100),
         field: 'position'
     })

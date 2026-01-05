@@ -11,21 +11,18 @@ export class CreateCompanyService {
         private readonly companyRepository: typeof Company,
     ) { }
 
-    async create(createCompanyDto: CreateCompanyDto, transaction?: Transaction): Promise<{ message: string, code: number }> {
+    async create(createCompanyDto: CreateCompanyDto, transaction?: Transaction): Promise<Company> {
         const { name, nit, address, phone, email } = createCompanyDto;
         await this.existCompany(nit);
         try {
-            await this.companyRepository.create({
+            const company = await this.companyRepository.create({
                 name,
                 nit,
                 address,
                 phone,
                 email,
             }, { transaction })
-            return {
-                message: 'Company created successfully',
-                code: 201
-            }
+            return company;
         } catch (error) {
             console.log('create company', error);
             throw new HttpException({

@@ -1,6 +1,7 @@
 import { DataTypes } from "sequelize";
 import { Column, HasOne, Model, Table } from "sequelize-typescript";
 import { Customer } from "./customer.entity";
+import { UserRole } from "./user-role.entity";
 
 
 @Table({
@@ -47,4 +48,7 @@ export class User extends Model {
 
     @HasOne(() => Customer)
     customer: Customer;
+
+    @HasOne(() => UserRole)
+    userRole: UserRole;
 }

@@ -12,7 +12,7 @@ export class CreateUserService {
     private readonly userRepository: typeof User,
   ) { }
 
-  async create(createUserDto: CreateUserDto, transaction?: Transaction): Promise<{ message: string, code: number }> {
+  async create(createUserDto: CreateUserDto, transaction?: Transaction): Promise<User> {
 
     const { email, password, fullName, profile } = createUserDto;
 
@@ -22,16 +22,13 @@ export class CreateUserService {
 
     try {
       await this.existUser(email);
-      await this.userRepository.create({
+      const user: User =await this.userRepository.create({
         email: email,
         password: hashPassword,
         fullName: fullName,
         profile: profile,
       }, { transaction })
-      return {
-        message: 'User created successfully',
-        code: 201,
-      };
+      return user;
     } catch (error) {
       console.log('create user', error);
       throw new HttpException({

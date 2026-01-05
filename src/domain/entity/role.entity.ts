@@ -1,7 +1,7 @@
-// src/modules/roles/entities/role.entity.ts
 import { DataTypes } from "sequelize";
 import { Column, Model, Table, HasMany, HasOne } from "sequelize-typescript";
 import { UserRole } from "./user-role.entity";
+import { Sidebar } from "./sidebar.entity";
 
 @Table({
     tableName: 'roles',
@@ -28,7 +28,6 @@ export class Role extends Model {
     @HasMany(() => UserRole)
     userRoles: UserRole[];
 
-    // Nota: Sidebar está incompleta, esta relación se agregará después
-    // @HasOne(() => Sidebar)
-    // sidebar: Sidebar;
+    @HasOne(() => Sidebar)
+    sidebar: Sidebar;
 }
