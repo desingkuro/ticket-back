@@ -15,30 +15,15 @@ export class LoginService {
         private readonly userRepository: typeof User,
     ) { }
 
-    async login(loginDto: LoginDto, secretKey: string): Promise<{ message: string, code: number, token: string }> {
+    async login(loginDto: LoginDto): Promise<{ message: string, code: number, token: string }> {
         const { email, password } = loginDto;
         try {
-            const user: any = await this.userRepository.findOne(
-                {
-                    where: { email },
-                    include: [
-                        {
-                            model: UserRole,
-                            include: [{ model: Role }]
-                        }
-                    ]
-                });
-            if (!user) {
-                throw new HttpException
-                    ({
-                        message: 'User not found',
-                        code: 404,
-                    }, HttpStatus.NOT_FOUND);
-            }
+            const user = await this.existUser(email);
+            console.log(user);
             const role = user?.userRole?.role
-            this.comprovatePassword(password, user.dataValues.password, secretKey);
-            const token = this.generateToken({ id: user.id, role: role });
-            return { message: 'Login successful', code: 200, token };
+            // this.comprovatePassword(password, user.dataValues.password, process.env.SECRET_KEY_PASSWORD);
+            //const token = this.generateToken({ id: user.id, role: role });
+            return { message: 'Login successful', code: 200, token: 'token' };
         } catch (error) {
             console.log('Error login', error);
             throw error;
@@ -84,5 +69,25 @@ export class LoginService {
         };
 
         return jwt.sign(payload, secretKey, { expiresIn });
+    }
+
+    private async existUser(email: string): Promise<User> {
+        const user: User | null = await this.userRepository.findOne({
+            where: { email },
+            include: [
+                {
+                    model: UserRole,
+                    include: [{ model: Role }]
+                }
+            ]
+        });
+        if (!user) {
+            throw new HttpException
+                ({
+                    message: 'User not found',
+                    code: 404,
+                }, HttpStatus.NOT_FOUND);
+        }
+        return user;
     }
 }

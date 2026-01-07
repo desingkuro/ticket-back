@@ -1,4 +1,3 @@
-// src/modules/workers/entities/worker.entity.ts
 import { DataTypes } from "sequelize";
 import { Column, Model, Table, ForeignKey, BelongsTo, HasMany } from "sequelize-typescript";
 import { User } from "./user.entity";

@@ -70,8 +70,8 @@ export class CreateUserService {
     return passwordBase64;
   }
 
-  private async existUser(email: string) {
-    const existUser = await this.userRepository.findOne({ where: { email } });
+  private async existUser(email: string): Promise<void> {
+    const existUser: User | null = await this.userRepository.findOne({ where: { email } });
 
     if (existUser) {
       throw new HttpException({

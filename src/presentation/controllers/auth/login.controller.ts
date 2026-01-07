@@ -12,8 +12,8 @@ export class LoginController {
   constructor(private readonly loginService: LoginService) { }
 
   @Post()
-  create(@Body() createLoginDto: LoginDto, @Headers('x-secret-key') secretKey: string): Promise<{ message: string, code: number, token: string }> {
-    return this.loginService.login(createLoginDto, secretKey);
+  create(@Body() createLoginDto: LoginDto): Promise<{ message: string, code: number, token: string }> {
+    return this.loginService.login(createLoginDto);
   }
 
 }

@@ -12,14 +12,13 @@ export class CreateWorkerService {
     ) { }
 
     async create(createWorkerDto: CreateWorkerDto, userId: number, companyId: number, transaction: Transaction) {
-        const { id, status, profile } = createWorkerDto;
+        const { status, position } = createWorkerDto;
         try {
             const worker: Worker = await this.workerRepository.create({
-                id,
                 userId,
                 companyId,
                 status,
-                profile,
+                position
             }, { transaction });
             return worker;
         } catch (error) {
