@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpCode, HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { Transaction } from "sequelize";
 import { CreateWorkerDto } from "src/presentation/dtos/auth/register/create-worker.dto";
 import { Worker } from "src/domain/entity/worker.entity";
@@ -23,7 +23,11 @@ export class CreateWorkerService {
             return worker;
         } catch (error) {
             console.log('Error create worker', error);
-            throw error;
+            throw new HttpException({
+                message: 'Error creating worker',
+                error: error.message,
+                statusCode: HttpStatus.INTERNAL_SERVER_ERROR
+            }, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

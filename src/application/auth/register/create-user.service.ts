@@ -29,12 +29,8 @@ export class CreateUserService {
         profile: profile,
       }, { transaction })
       return user;
-    } catch (error) {
-      console.log('create user', error);
-      throw new HttpException({
-        message: 'Error create user',
-        code: 400,
-      }, HttpStatus.BAD_REQUEST);
+    } catch (error) { 
+      throw error
     }
   }
 

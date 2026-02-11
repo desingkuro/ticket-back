@@ -7,10 +7,9 @@ async function bootstrap() {
 
   //Cors
   app.enableCors({
-    origin: process.env.CORS_ORIGIN,
+    origin: "*",
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: 'Content-Type,Authorization',
   })
 
   //uri prefix
@@ -30,6 +29,7 @@ async function bootstrap() {
   const port = parseInt(process.env.PORT || '3000');
   await app.listen(port, () => {
     console.log(`Server running on port ${port}`);
+    console.log(`Swagger running on port ${port}/api`);
   });
 }
 bootstrap();

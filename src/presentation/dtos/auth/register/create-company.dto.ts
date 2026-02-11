@@ -8,9 +8,6 @@ export class CreateCompanyDto {
     nit: string;
 
     @IsString()
-    address: string;
-
-    @IsString()
     phone: string;
 
     @IsString()

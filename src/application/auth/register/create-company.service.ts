@@ -12,13 +12,12 @@ export class CreateCompanyService {
     ) { }
 
     async create(createCompanyDto: CreateCompanyDto, transaction?: Transaction): Promise<Company> {
-        const { name, nit, address, phone, email } = createCompanyDto;
+        const { name, nit, phone, email } = createCompanyDto;
         await this.existCompany(nit);
         try {
             const company = await this.companyRepository.create({
                 name,
                 nit,
-                address,
                 phone,
                 email,
             }, { transaction })

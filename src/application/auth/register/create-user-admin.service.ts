@@ -20,8 +20,8 @@ export class CreateUserAdminService {
     async create(createUserAdminDto: CreateUserAdminDto): Promise<{ message: string, code: number }> {
         const { company, user, worker } = createUserAdminDto;
         return await this.sequelize.transaction(async (t) => {
-            const companyCreated = await this.createCompanyService.create(company, t);
             const userCreated = await this.createUserService.create(user, t);
+            const companyCreated = await this.createCompanyService.create(company, t);
             await this.createUserRoleService.createUserRole(userCreated.id, 1, t);
             await this.createWorkerService.create(worker, userCreated.id, companyCreated.id, t);
         }).catch((error) => {

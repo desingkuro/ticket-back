@@ -1,9 +1,9 @@
-import { IsNumber, IsString } from "class-validator";
+import { IsBoolean, IsString } from "class-validator";
 
 export class CreateWorkerDto {
 
-    @IsString()
-    status:string;
+    @IsBoolean()
+    status:boolean;
 
     @IsString()
     position:string;

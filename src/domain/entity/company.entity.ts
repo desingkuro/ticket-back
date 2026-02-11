@@ -33,12 +33,6 @@ export class Company extends Model {
     nit: string;
 
     @Column({
-        type: DataTypes.TEXT,
-        field: 'address'
-    })
-    address: string;
-
-    @Column({
         type: DataTypes.STRING(50),
         field: 'phone'
     })

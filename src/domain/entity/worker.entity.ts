@@ -37,16 +37,16 @@ export class Worker extends Model {
 
     @Column({
         type: DataTypes.STRING(100),
-        field: 'position'
+        field: 'position'   
     })
     position: string;
 
     @Column({
-        type: DataTypes.STRING(20),
+        type: DataTypes.BOOLEAN,
         field: 'status',
-        defaultValue: 'active'
+        defaultValue: true
     })
-    status: string;
+    status: boolean;
 
     // Relaciones
     @BelongsTo(() => User)

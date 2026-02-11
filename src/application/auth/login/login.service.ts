@@ -4,8 +4,7 @@ import { InjectModel } from "@nestjs/sequelize";
 import { User } from "src/domain/entity/user.entity";
 import { UserRole } from "src/domain/entity/user-role.entity";
 import { Role } from "src/domain/entity/role.entity";
-import { AES } from "crypto-js";
-import * as enc from "crypto-js/enc-utf8";
+import * as CryptoJS from "crypto-js";
 import * as jwt from "jsonwebtoken";
 
 @Injectable()
@@ -13,39 +12,45 @@ export class LoginService {
     constructor(
         @InjectModel(User)
         private readonly userRepository: typeof User,
+        @InjectModel(UserRole)
+        private readonly userRoleRepository: typeof UserRole,
     ) { }
+
+    private secretKeyBackup = process.env.SECRET_KEY_PASSWORD;
 
     async login(loginDto: LoginDto): Promise<{ message: string, code: number, token: string }> {
         const { email, password } = loginDto;
         try {
-            const user = await this.existUser(email);
-            console.log(user);
-            const role = user?.userRole?.role
-            // this.comprovatePassword(password, user.dataValues.password, process.env.SECRET_KEY_PASSWORD);
-            //const token = this.generateToken({ id: user.id, role: role });
-            return { message: 'Login successful', code: 200, token: 'token' };
+            const user: User = await this.existUser(email);
+            const role: Role = await this.getRole(user);
+            this.comprovatePassword(password, user.dataValues.password);
+            const token = this.generateToken({ id: user.id, role: role });
+            return { message: 'Login successful', code: 200, token: token };
         } catch (error) {
             console.log('Error login', error);
             throw error;
         }
     }
 
-    private comprovatePassword(passWord: string, encryptedPassword: string, secretKey: string) {
-        const secretKeyBackup = process.env.SECRET_KEY_PASSWORD;
-        const decryptedPasswordBackup = AES.decrypt(encryptedPassword, secretKeyBackup).toString(enc.Utf8);
-        console.log('decryptedPasswordBackup', decryptedPasswordBackup);
-        console.log('passWord', passWord);
-        if (passWord !== decryptedPasswordBackup) {
-            throw new HttpException
-                ({
+    private comprovatePassword(passWord: string, encryptedPassword: string) {
+        const bytes = CryptoJS.AES.decrypt(encryptedPassword, this.secretKeyBackup);
+        const decryptedPasswordBackup = bytes.toString(CryptoJS.enc.Utf8);
+
+        const passWordDecode = atob(passWord);
+
+        if (passWordDecode !== decryptedPasswordBackup) {
+            throw new HttpException(
+                {
                     message: 'Invalid password',
                     code: 401,
-                }, HttpStatus.UNAUTHORIZED);
+                },
+                HttpStatus.UNAUTHORIZED
+            );
         }
     }
 
     private generateToken(data: { id: number; role: Role }): string {
-        const secretKey = process.env.SECRET_KEY_TOKEN;
+        const secretKey = this.secretKeyBackup;
         const expiresInEnv = process.env.JWT_EXPIRATION_TIME;
         const expiresIn: jwt.SignOptions['expiresIn'] =
             expiresInEnv && /^\d+$/.test(expiresInEnv)
@@ -73,13 +78,7 @@ export class LoginService {
 
     private async existUser(email: string): Promise<User> {
         const user: User | null = await this.userRepository.findOne({
-            where: { email },
-            include: [
-                {
-                    model: UserRole,
-                    include: [{ model: Role }]
-                }
-            ]
+            where: { email }
         });
         if (!user) {
             throw new HttpException
@@ -89,5 +88,23 @@ export class LoginService {
                 }, HttpStatus.NOT_FOUND);
         }
         return user;
+    }
+
+    private async getRole(user: User): Promise<Role> {
+        const userRole: UserRole | null = await this.userRoleRepository.findOne({
+            where: { userId: user.id },
+            include: [{
+                model: Role,
+                as: 'role',
+            }]
+        });
+        if (!userRole) {
+            throw new HttpException
+                ({
+                    message: 'User role not found',
+                    code: 404,
+                }, HttpStatus.NOT_FOUND);
+        }
+        return userRole.dataValues.role;
     }
 }
