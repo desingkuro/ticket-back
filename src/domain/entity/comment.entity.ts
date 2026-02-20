@@ -24,7 +24,7 @@ export class Comment extends Model {
         type: DataTypes.INTEGER,
         field: 'card_id'
     })
-    cardId: number;
+    declare cardId: number;
 
     @ForeignKey(() => Worker)
     @Column({
@@ -32,19 +32,19 @@ export class Comment extends Model {
         type: DataTypes.INTEGER,
         field: 'worker_id'
     })
-    workerId: number;
+    declare workerId: number;
 
     @Column({
         allowNull: false,
         type: DataTypes.TEXT,
         field: 'content'
     })
-    content: string;
+    declare content: string;
 
     // Relaciones
     @BelongsTo(() => Card)
-    card: Card;
+    declare card: Card;
 
     @BelongsTo(() => Worker)
-    worker: Worker;
+    declare worker: Worker;
 }

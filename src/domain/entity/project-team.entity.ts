@@ -24,7 +24,7 @@ export class ProjectTeam extends Model {
         type: DataTypes.INTEGER,
         field: 'project_id'
     })
-    projectId: number;
+    declare projectId: number;
 
     @ForeignKey(() => Team)
     @Column({
@@ -32,25 +32,25 @@ export class ProjectTeam extends Model {
         type: DataTypes.INTEGER,
         field: 'team_id'
     })
-    teamId: number;
+    declare teamId: number;
 
     @Column({
         type: DataTypes.DATE,
         field: 'assigned_date',
         defaultValue: DataTypes.NOW
     })
-    assignedDate: Date;
+    declare assignedDate: Date;
 
     @Column({
         type: DataTypes.STRING(20),
         defaultValue: 'active'
     })
-    status: string;
+    declare status: string;
 
     // RELACIONES
     @BelongsTo(() => Project)
-    project: Project;
+    declare project: Project;
 
     @BelongsTo(() => Team)
-    team: Team;
+    declare team: Team;
 }

@@ -23,42 +23,42 @@ export class ModuleEntity extends Model {
         type: DataTypes.INTEGER,
         field: 'sidebar_id'
     })
-    sidebarId: number;
+    declare sidebarId: number;
 
     @Column({
         allowNull: false,
         type: DataTypes.STRING(100),
         field: 'name'
     })
-    name: string;
+    declare name: string;
 
     @Column({
         type: DataTypes.STRING(50),
         field: 'icon'
     })
-    icon: string;
+    declare icon: string;
 
     @Column({
         type: DataTypes.STRING(255),
         field: 'url'
     })
-    url: string;
+    declare url: string;
 
     @Column({
         type: DataTypes.INTEGER,
         field: 'position',
         defaultValue: 0
     })
-    position: number;
+    declare position: number;
 
     @Column({
         type: DataTypes.BOOLEAN,
         field: 'is_active',
         defaultValue: true
     })
-    isActive: boolean;
+    declare isActive: boolean;
 
     // Relaciones
     @BelongsTo(() => Sidebar)
-    sidebar: Sidebar;
+    declare sidebar: Sidebar;
 }

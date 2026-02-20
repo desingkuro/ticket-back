@@ -25,47 +25,47 @@ export class Card extends Model {
         type: DataTypes.INTEGER,
         field: 'board_id'
     })
-    boardId: number;
+    declare boardId: number;
 
     @Column({
         allowNull: false,
         type: DataTypes.STRING(255),
         field: 'title'
     })
-    title: string;
+    declare title: string;
 
     @Column({
         type: DataTypes.TEXT,
         field: 'description'
     })
-    description: string;
+    declare description: string;
 
     @Column({
         type: DataTypes.STRING(50),
         field: 'status',
         defaultValue: 'pending'
     })
-    status: string;
+    declare status: string;
 
     @Column({
         type: DataTypes.DATE,
         field: 'start_date'
     })
-    startDate: Date;
+    declare startDate: Date;
 
     @Column({
         type: DataTypes.DATE,
         field: 'end_date'
     })
-    endDate: Date;
+    declare endDate: Date;
 
     // Relaciones
     @BelongsTo(() => Board)
-    board: Board;
+    declare board: Board;
 
     @HasMany(() => Comment)
-    comments: Comment[];
+    declare comments: Comment[];
 
     @HasMany(() => CardWorker)
-    cardWorkers: CardWorker[];
+    declare cardWorkers: CardWorker[];
 }

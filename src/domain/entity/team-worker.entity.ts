@@ -24,7 +24,7 @@ export class TeamWorker extends Model {
         type: DataTypes.INTEGER,
         field: 'team_id'
     })
-    teamId: number;
+    declare teamId: number;
 
     @ForeignKey(() => Worker)
     @Column({
@@ -32,33 +32,33 @@ export class TeamWorker extends Model {
         type: DataTypes.INTEGER,
         field: 'worker_id'
     })
-    workerId: number;
+    declare workerId: number;
 
     @Column({
         type: DataTypes.STRING(100),
         field: 'role_in_team'
     })
-    roleInTeam: string;
+    declare roleInTeam: string;
 
     @Column({
         type: DataTypes.DATE,
         field: 'joined_date',
         defaultValue: DataTypes.NOW
     })
-    joinedDate: Date;
+    declare joinedDate: Date;
 
     @Column({
         type: DataTypes.STRING(20),
         field: 'status',
         defaultValue: 'active'
     })
-    status: string;
+    declare status: string;
 
     // Relaciones
     @BelongsTo(() => Team)
-    team: Team;
+    declare team: Team;
 
     @BelongsTo(() => Worker)
-    worker: Worker;
+    declare worker: Worker;
 }
 

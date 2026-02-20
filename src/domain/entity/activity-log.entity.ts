@@ -26,32 +26,32 @@ export class ActivityLog extends Model {
         type: DataTypes.INTEGER,
         field: 'worker_id'
     })
-    workerId: number;
+    declare workerId: number;
 
     @ForeignKey(() => Card)
     @Column({
         type: DataTypes.INTEGER,
         field: 'card_id'
     })
-    cardId: number;
+    declare cardId: number;
 
     @Column({
         allowNull: false,
         type: DataTypes.STRING(100),
         field: 'action'
     })
-    action: string;
+    declare action: string;
 
     @Column({
         type: DataTypes.STRING(200),
         field: 'device'
     })
-    device: string;
+    declare device: string;
 
     // Relaciones
     @BelongsTo(() => Worker)
-    worker: Worker;
+    declare worker: Worker;
 
     @BelongsTo(() => Card)
-    card: Card;
+    declare card: Card;
 }

@@ -23,31 +23,31 @@ export class Company extends Model {
         type: DataTypes.STRING(255),
         field: 'name'
     })
-    name: string;
+    declare name: string;
 
     @Column({
         type: DataTypes.STRING(50),
         unique: true,
         field: 'nit'
     })
-    nit: string;
+    declare nit: string;
 
     @Column({
         type: DataTypes.STRING(50),
         field: 'phone'
     })
-    phone: string;
+    declare phone: string;
 
     @Column({
         type: DataTypes.STRING(255),
         field: 'email'
     })
-    email: string;
+    declare email: string;
 
     // Relaciones
     @HasMany(() => Worker)
-    workers: Worker[];
+    declare workers: Worker[];
 
     @HasMany(() => Team)
-    teams: Team[];
+    declare teams: Team[];
 }

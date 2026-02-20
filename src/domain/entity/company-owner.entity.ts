@@ -24,7 +24,7 @@ export class CompanyOwner extends Model {
         type: DataTypes.INTEGER,
         field: 'company_id'
     })
-    companyId: number;
+    declare companyId: number;
 
     @ForeignKey(() => User)
     @Column({
@@ -32,24 +32,24 @@ export class CompanyOwner extends Model {
         type: DataTypes.INTEGER,
         field: 'user_id'
     })
-    userId: number;
+    declare userId: number;
 
     @Column({
         type: DataTypes.DECIMAL(5, 2),
         field: 'ownership_percentage'
     })
-    ownershipPercentage: number;
+    declare ownershipPercentage: number;
 
     @Column({
         type: DataTypes.DATE,
         field: 'start_date'
     })
-    startDate: Date;
+    declare startDate: Date;
 
     // Relaciones
     @BelongsTo(() => Company)
-    company: Company;
+    declare company: Company;
 
     @BelongsTo(() => User)
-    user: User;
+    declare user: User;
 }

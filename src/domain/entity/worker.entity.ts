@@ -26,41 +26,41 @@ export class Worker extends Model {
         unique: true,
         field: 'user_id'
     })
-    userId: number;
+    declare userId: number;
 
     @ForeignKey(() => Company)
     @Column({
         type: DataTypes.INTEGER,
         field: 'company_id'
     })
-    companyId: number;
+    declare companyId: number;
 
     @Column({
         type: DataTypes.STRING(100),
         field: 'position'   
     })
-    position: string;
+    declare position: string;
 
     @Column({
         type: DataTypes.BOOLEAN,
         field: 'status',
         defaultValue: true
     })
-    status: boolean;
+    declare status: boolean;
 
     // Relaciones
     @BelongsTo(() => User)
-    user: User;
+    declare user: User;
 
     @BelongsTo(() => Company)
-    company: Company;
+    declare company: Company;
 
     @HasMany(() => Comment)
-    comments: Comment[];
+    declare comments: Comment[];
 
     @HasMany(() => CardWorker)
-    cardWorkers: CardWorker[];
+    declare cardWorkers: CardWorker[];
 
     @HasMany(() => TeamWorker)
-    teamWorkers: TeamWorker[];
+    declare teamWorkers: TeamWorker[];
 }

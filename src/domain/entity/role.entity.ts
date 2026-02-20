@@ -23,11 +23,11 @@ export class Role extends Model {
         unique: true,
         field: 'name'
     })
-    name: string;
+    declare name: string;
 
     @HasMany(() => UserRole)
-    userRoles: UserRole[];
+    declare userRoles: UserRole[];
 
     @HasOne(() => Sidebar)
-    sidebar: Sidebar;
+    declare sidebar: Sidebar;
 }

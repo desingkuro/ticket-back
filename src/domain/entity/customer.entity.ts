@@ -23,32 +23,32 @@ export class Customer extends Model{
         type: DataTypes.INTEGER,
         field: 'user_id'
     })
-    userId: number;
+    declare userId: number;
 
     @Column({
         allowNull: false,
         type: DataTypes.STRING,
         field: 'company_name'
     })
-    companyName: string;
+    declare companyName: string;
 
     @Column({
         allowNull: false,
         type: DataTypes.STRING,
         field: 'phone'
     })
-    phone: string;
+    declare phone: string;
 
     @Column({
         allowNull: false,
         type: DataTypes.STRING,
         field: 'address'
     })
-    address: string;
+    declare address: string;
 
     @BelongsTo(() => User)
-    user: User;
+    declare user: User;
 
     @HasMany(() => Project)
-    projects: Project[];
+    declare projects: Project[];
 }

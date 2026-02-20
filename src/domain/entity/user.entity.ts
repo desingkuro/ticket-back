@@ -22,7 +22,7 @@ export class User extends Model {
         allowNull: false,
         field: 'full_name'
     })
-    fullName: string;
+    declare fullName: string;
 
     @Column({
         type: DataTypes.STRING,
@@ -30,25 +30,25 @@ export class User extends Model {
         unique: true,
         field: 'email'
     })
-    email: string;
+    declare email: string;
 
     @Column({
         type: DataTypes.STRING,
         allowNull: false,
         field: 'password'
     })
-    password: string;
+    declare password: string;
 
     @Column({
         type: DataTypes.STRING,
         allowNull: false,
         field: 'profile'
     })
-    profile: string;
+    declare profile: string;
 
     @HasOne(() => Customer)
-    customer: Customer;
+    declare customer: Customer;
 
     @HasOne(() => UserRole)
-    userRole: UserRole;
+    declare userRole: UserRole;
 }

@@ -25,33 +25,33 @@ export class Sidebar extends Model {
         unique: true, // Relación 1:1 con Role
         field: 'role_id'
     })
-    roleId: number;
+    declare roleId: number;
 
     @Column({
         allowNull: false,
         type: DataTypes.STRING(100),
         field: 'name'
     })
-    name: string;
+    declare name: string;
 
     @Column({
         type: DataTypes.INTEGER,
         field: 'position',
         defaultValue: 0
     })
-    position: number;
+    declare position: number;
 
     @Column({
         type: DataTypes.BOOLEAN,
         field: 'is_visible',
         defaultValue: true
     })
-    isVisible: boolean;
+    declare isVisible: boolean;
 
     // Relaciones
     @BelongsTo(() => Role)
-    role: Role;
+    declare role: Role;
 
     @HasMany(() => ModuleEntity)
-    modules: ModuleEntity[];
+    declare modules: ModuleEntity[];
 }

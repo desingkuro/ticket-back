@@ -24,7 +24,7 @@ export class UserRole extends Model {
         type: DataTypes.INTEGER,
         field: 'user_id'
     })
-    userId: number;
+    declare userId: number;
 
     @ForeignKey(() => Role)
     @Column({
@@ -32,18 +32,18 @@ export class UserRole extends Model {
         type: DataTypes.INTEGER,
         field: 'role_id'
     })
-    roleId: number;
+    declare roleId: number;
 
     @Column({
         type: DataTypes.DATE,
         field: 'assigned_at',
         defaultValue: DataTypes.NOW
     })
-    assignedAt: Date;
+    declare assignedAt: Date;
 
     @BelongsTo(() => User)
-    user: User;
+    declare user: User;
 
     @BelongsTo(() => Role)
-    role: Role;
+    declare role: Role;
 }

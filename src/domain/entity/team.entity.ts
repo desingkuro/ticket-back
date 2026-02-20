@@ -25,29 +25,29 @@ export class Team extends Model {
         type: DataTypes.INTEGER,
         field: 'company_id'
     })
-    companyId: number;
+    declare companyId: number;
 
     @Column({
         allowNull: false,
         type: DataTypes.STRING(255),
         field: 'name'
     })
-    name: string;
+    declare name: string;
 
     @Column({
         type: DataTypes.STRING(50),
         field: 'status',
         defaultValue: 'available'
     })
-    status: string;
+    declare status: string;
 
     // Relaciones
     @BelongsTo(() => Company)
-    company: Company;
+    declare company: Company;
 
     @HasMany(() => TeamWorker)
-    teamWorkers: TeamWorker[];
+    declare teamWorkers: TeamWorker[];
 
     @HasMany(() => ProjectTeam)
-    projectTeams: ProjectTeam[];
+    declare projectTeams: ProjectTeam[];
 }

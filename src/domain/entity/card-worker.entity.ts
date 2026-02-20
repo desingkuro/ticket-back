@@ -24,7 +24,7 @@ export class CardWorker extends Model {
         type: DataTypes.INTEGER,
         field: 'card_id'
     })
-    cardId: number;
+    declare cardId: number;
 
     @ForeignKey(() => Worker)
     @Column({
@@ -32,19 +32,19 @@ export class CardWorker extends Model {
         type: DataTypes.INTEGER,
         field: 'worker_id'
     })
-    workerId: number;
+    declare workerId: number;
 
     @Column({
         type: DataTypes.DATE,
         field: 'assigned_at',
         defaultValue: DataTypes.NOW
     })
-    assignedAt: Date;
+    declare assignedAt: Date;
 
     // Relaciones
     @BelongsTo(() => Card)
-    card: Card;
+    declare card: Card;
 
     @BelongsTo(() => Worker)
-    worker: Worker;
+    declare worker: Worker;
 }
