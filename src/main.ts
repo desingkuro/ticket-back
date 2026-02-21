@@ -10,7 +10,19 @@ async function bootstrap() {
   
   //Cors
   app.enableCors({
-    origin: "*",
+    origin: (origin, callback) => {
+      const allowedOrigins = ['http://localhost:5173'];
+
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error(`CORS origin not allowed: ${origin}`), false);
+    },
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   })
@@ -28,7 +40,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-
+  
   //port
   const port = parseInt(process.env.PORT || '3000');
   await app.listen(port, () => {

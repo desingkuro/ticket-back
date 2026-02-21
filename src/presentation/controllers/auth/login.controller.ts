@@ -16,7 +16,7 @@ export class LoginController {
   async create(
     @Body() createLoginDto: LoginDto,
     @Res({ passthrough: true }) res: Response,
-  ) {
+  ): Promise<{ message: string, code: number }> {
     const result = await this.loginService.login(createLoginDto);
 
     res.cookie('access_token', result.token, {
@@ -26,7 +26,7 @@ export class LoginController {
       maxAge: 1000 * 60 * 60,   // 1 hora
     });
 
-    return {
+    return {  
       message: result.message,
       code: result.code,
     };

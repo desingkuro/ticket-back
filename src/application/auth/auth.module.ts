@@ -13,10 +13,11 @@ import { LoginController } from 'src/presentation/controllers/auth/login.control
 import { CreateWorkerService } from './register/create-worker.service';
 import { Worker } from 'src/domain/entity/worker.entity';
 import { CreateUserRoleService } from './register/create-user-rol.service';
+import { AuthController } from 'src/presentation/controllers/auth/auth.controller';
 
 @Module({
   imports: [SequelizeModule.forFeature([User,Company,UserRole,Role,Worker])],
-  controllers: [RegisterController,LoginController],
+  controllers: [RegisterController,LoginController,AuthController],
   providers: [CreateUserService, CreateCompanyService, CreateUserAdminService,LoginService,CreateWorkerService, CreateUserRoleService],
   exports: [CreateUserService, CreateCompanyService, CreateUserAdminService,LoginService,CreateWorkerService, CreateUserRoleService]
 })

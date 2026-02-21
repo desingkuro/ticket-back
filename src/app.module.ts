@@ -5,6 +5,7 @@ import { CreateDatabaseFactory } from './core/database/create-database-f-actory.
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { DomainModule } from './domain/domain.module';
 import { AuthModule } from './application/auth/auth.module';
+import { CoreModule } from './core/core.module';
 
 @Module({
   imports: [DomainModule,
@@ -22,7 +23,8 @@ import { AuthModule } from './application/auth/auth.module';
       inject: [ConfigService]
     }),
     DomainModule,
-    AuthModule
+    AuthModule,
+    CoreModule
   ],
   controllers: [],
   providers: [

@@ -50,7 +50,7 @@ export class LoginService {
     }
 
     private generateToken(data: { id: number; role: Role }): string {
-        const secretKey = this.secretKeyBackup;
+        const secretKey = process.env.JWT_SECRET_KEY;
         const expiresInEnv = process.env.JWT_EXPIRATION_TIME;
         const expiresIn: jwt.SignOptions['expiresIn'] =
             expiresInEnv && /^\d+$/.test(expiresInEnv)
@@ -58,7 +58,7 @@ export class LoginService {
                 : (expiresInEnv as unknown as jwt.SignOptions['expiresIn']) ?? '1h';
 
         if (!secretKey || typeof secretKey !== 'string' || secretKey.trim() === '') {
-            throw new Error('SECRET_KEY_TOKEN is not defined in environment variables');
+            throw new Error('JWT_SECRET_KEY is not defined in environment variables');
         }
 
         if (!data.id || !data.role) {
