@@ -2,12 +2,13 @@ import { DataTypes } from "sequelize";
 import { BelongsTo, Column, ForeignKey, HasOne, Model, Table } from "sequelize-typescript";
 import { Customer } from "./customer.entity";
 import { Board } from "./board.entity";
+import { ProjectStatus } from "src/application/projects/enums/project-status.enum";
 
 @Table({
     tableName:'projects',
     timestamps:true
 })
-export class Project extends Model {
+export class Project extends Model<Project> {
     @Column({
         allowNull: false,
         autoIncrement: true,
@@ -47,10 +48,10 @@ export class Project extends Model {
 
     @Column({
         allowNull: false,
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM(...Object.values(ProjectStatus)),
         field: 'status'
     })
-    declare status: string;
+    declare status: ProjectStatus;
 
     @BelongsTo(() => Customer)
     customer: Customer;

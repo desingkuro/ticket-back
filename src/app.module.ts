@@ -6,6 +6,7 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { DomainModule } from './domain/domain.module';
 import { AuthModule } from './application/auth/auth.module';
 import { CoreModule } from './core/core.module';
+import { ProjectModule } from './application/projects/project.module';
 
 @Module({
   imports: [DomainModule,
@@ -24,7 +25,8 @@ import { CoreModule } from './core/core.module';
     }),
     DomainModule,
     AuthModule,
-    CoreModule
+    CoreModule,
+    ProjectModule
   ],
   controllers: [],
   providers: [
